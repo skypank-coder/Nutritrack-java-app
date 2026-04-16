@@ -1,0 +1,197 @@
+/* NutriTrack Web Application Styles */
+
+:root {
+    --primary-color: #2E7D32;
+    --secondary-color: #66BB6A;
+    --accent-color: #81C784;
+    --background-color: #F1F8E9;
+    --card-bg: #FFFFFF;
+    --text-primary: #1B5E20;
+    --text-secondary: #424242;
+    --border-color: #E0E0E0;
+    --success-color: #4CAF50;
+    --warning-color: #FF9800;
+    --danger-color: #F44336;
+    --info-color: #2196F3;
+}
+
+/* Global styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Sidebar */
+.sidebar {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 20px;
+    min-height: 500px;
+}
+
+.nav-link {
+    color: var(--text-primary);
+    border-radius: 10px;
+    padding: 12px 20px;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+/* Forms */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid var(--border-color);
+    padding: 12px 15px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+}
+
+/* Progress bars */
+.progress {
+    height: 8px;
+    border-radius: 4px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+/* Tables */
+.table thead th {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+}
+
+/* Alerts */
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+/* Loading states */
+.loading {
+    text-align: center;
+    padding: 20px;
+}
+
+.spinner-border {
+    color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        margin-bottom: 20px;
+    }
+    
+    .card {
+        margin-bottom: 20px;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Custom utility classes */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bg-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.shadow-hover:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.rounded-lg {
+    border-radius: 15px;
+}
+
+/* Health-themed colors */
+.health-green { color: var(--primary-color); }
+.health-light-green { color: var(--secondary-color); }
+.health-accent { color: var(--accent-color); }
+
+/* Nutrition indicators */
+.nutrition-good { color: var(--success-color); }
+.nutrition-warning { color: var(--warning-color); }
+.nutrition-danger { color: var(--danger-color); }
+
+/* BMI category colors */
+.bmi-underweight { color: #2196F3; }
+.bmi-normal { color: #4CAF50; }
+.bmi-overweight { color: #FF9800; }
+.bmi-obese { color: #F44336; }

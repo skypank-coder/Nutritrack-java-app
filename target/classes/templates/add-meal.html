@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Meal - NutriTrack</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #66BB6A;
+            --accent-color: #81C784;
+            --background-color: #F1F8E9;
+            --card-bg: #FFFFFF;
+            --text-primary: #1B5E20;
+            --text-secondary: #424242;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-color), #E8F5E8);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #E0E0E0;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .food-item {
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .food-item:hover {
+            background-color: #F1F8E9;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard-working.html">
+                <i class="fas fa-heartbeat me-2"></i>NutriTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="fas fa-home me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/add-meal.html">
+                            <i class="fas fa-plus me-1"></i>Add Meal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reports.html">
+                            <i class="fas fa-chart-bar me-1"></i>Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/goals">
+                            <i class="fas fa-bullseye me-1"></i>Goals
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">
+                            <i class="fas fa-user me-1"></i>Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/bmi">
+                            <i class="fas fa-calculator me-1"></i>BMI
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <i class="fas fa-plus me-2"></i>Add New Meal
+                        </h2>
+                        
+                        <!-- Alert Container -->
+                        <div id="alertContainer"></div>
+                        
+                        <form id="addMealForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="mealType" class="form-label">Meal Type</label>
+                                    <select class="form-control" id="mealType" name="mealType" required>
+                                        <option value="">Select...</option>
+                                        <option value="breakfast">Breakfast</option>
+                                        <option value="lunch">Lunch</option>
+                                        <option value="dinner">Dinner</option>
+                                        <option value="snacks">Snacks</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="foodName" class="form-label">Food Name</label>
+                                    <select class="form-control" id="foodName" name="foodName" required>
+                                        <option value="">Select or type...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="grams" class="form-label">Grams</label>
+                                    <input type="number" step="0.1" class="form-control" id="grams" name="grams" required>
+                                </div>
+                                
+                                <div class="col-md-8 mb-3">
+                                    <label for="customFood" class="form-label">Or type custom food name</label>
+                                    <input type="text" class="form-control" id="customFood" name="customFood" placeholder="e.g., Grilled Chicken">
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Add Meal
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Load food items on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFoodItems();
+        });
+        
+        async function loadFoodItems() {
+            try {
+                const response = await fetch('/api/meal/foods');
+                const data = await response.json();
+                
+                if (data.success) {
+                    populateFoodDropdown(data.foods);
+                }
+            } catch (error) {
+                console.error('Error loading food items:', error);
+            }
+        }
+        
+        function populateFoodDropdown(foods) {
+            const select = document.getElementById('foodName');
+            select.innerHTML = '<option value="">Select...</option>';
+            
+            foods.forEach(food => {
+                const option = document.createElement('option');
+                option.value = food;
+                option.textContent = food.charAt(0).toUpperCase() + food.slice(1);
+                select.appendChild(option);
+            });
+        }
+        
+        // Handle form submission
+        document.getElementById('addMealForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const mealType = document.getElementById('mealType').value;
+            let foodName = document.getElementById('foodName').value;
+            const customFood = document.getElementById('customFood').value;
+            const grams = parseFloat(document.getElementById('grams').value);
+            
+            // Use custom food name if provided
+            if (customFood.trim()) {
+                foodName = customFood.trim();
+            }
+            
+            if (!mealType || !foodName || !grams) {
+                showAlert('Please fill in all required fields', 'danger');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/meal/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        mealType: mealType,
+                        foodName: foodName,
+                        grams: grams
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('Meal added successfully! Redirecting to dashboard...', 'success');
+                    document.getElementById('addMealForm').reset();
+                    setTimeout(() => { window.location.href = '/dashboard'; }, 1500);
+                } else {
+                    showAlert('Failed to add meal: ' + result.message, 'danger');
+                }
+            } catch (error) {
+                console.error('Error adding meal:', error);
+                showAlert('Error adding meal: ' + error.message, 'danger');
+            }
+        });
+        
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

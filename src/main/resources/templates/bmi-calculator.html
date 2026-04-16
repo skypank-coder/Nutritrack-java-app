@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator - NutriTrack</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #66BB6A;
+            --accent-color: #81C784;
+            --background-color: #F1F8E9;
+            --card-bg: #FFFFFF;
+            --text-primary: #1B5E20;
+            --text-secondary: #424242;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-color), #E8F5E8);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #E0E0E0;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+        }
+        
+        .bmi-result {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .bmi-value {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .bmi-category {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .underweight { background: linear-gradient(135deg, #64B5F6, #42A5F5); color: white; }
+        .normal { background: linear-gradient(135deg, #66BB6A, #4CAF50); color: white; }
+        .overweight { background: linear-gradient(135deg, #FFB74D, #FF9800); color: white; }
+        .obese { background: linear-gradient(135deg, #EF5350, #F44336); color: white; }
+        
+        .bmi-chart {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+        }
+        
+        .health-tips {
+            background: #F1F8E9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .health-tips h5 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .health-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .health-tips li {
+            padding: 8px 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .health-tips li:last-child {
+            border-bottom: none;
+        }
+        
+        .health-tips li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="fas fa-heartbeat me-2"></i>NutriTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="fas fa-home me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/add-meal.html">
+                            <i class="fas fa-plus me-1"></i>Add Meal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reports.html">
+                            <i class="fas fa-chart-bar me-1"></i>Reports
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/goals">
+                            <i class="fas fa-bullseye me-1"></i>Goals
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">
+                            <i class="fas fa-user me-1"></i>Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/bmi">
+                            <i class="fas fa-calculator me-1"></i>BMI Calculator
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt me-1"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <i class="fas fa-calculator me-2"></i>BMI Calculator
+                        </h2>
+                        <p class="card-text">Calculate your Body Mass Index and track your health progress.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Calculate Your BMI</h5>
+                        
+                        <form id="bmiForm">
+                            <div class="mb-3">
+                                <label for="height" class="form-label">Height (cm)</label>
+                                <input type="number" step="0.1" class="form-control" id="height" name="height" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="weight" class="form-label">Weight (kg)</label>
+                                <input type="number" step="0.1" class="form-control" id="weight" name="weight" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="age" class="form-label">Age</label>
+                                <input type="number" class="form-control" id="age" name="age" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">Select...</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-calculator me-2"></i>Calculate BMI
+                            </button>
+                        </form>
+                        
+                        <div id="bmiResult" style="display: none;">
+                            <div class="bmi-result" id="bmiResultCard">
+                                <div class="bmi-value" id="bmiValue">0</div>
+                                <div class="bmi-category" id="bmiCategory">Normal</div>
+                                <div id="bmiDescription"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">BMI Categories</h5>
+                        
+                        <div class="bmi-chart">
+                            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0" y="50" width="100" height="150" fill="#64B5F6" opacity="0.7"/>
+                                <rect x="100" y="50" width="100" height="150" fill="#66BB6A" opacity="0.7"/>
+                                <rect x="200" y="50" width="100" height="150" fill="#FFB74D" opacity="0.7"/>
+                                <rect x="300" y="50" width="100" height="150" fill="#EF5350" opacity="0.7"/>
+                                
+                                <text x="50" y="40" text-anchor="middle" fill="#333" font-size="14">Underweight</text>
+                                <text x="50" y="180" text-anchor="middle" fill="white" font-size="12">&lt; 18.5</text>
+                                
+                                <text x="150" y="40" text-anchor="middle" fill="#333" font-size="14">Normal</text>
+                                <text x="150" y="180" text-anchor="middle" fill="white" font-size="12">18.5-24.9</text>
+                                
+                                <text x="250" y="40" text-anchor="middle" fill="#333" font-size="14">Overweight</text>
+                                <text x="250" y="180" text-anchor="middle" fill="white" font-size="12">25-29.9</text>
+                                
+                                <text x="350" y="40" text-anchor="middle" fill="#333" font-size="14">Obese</text>
+                                <text x="350" y="180" text-anchor="middle" fill="white" font-size="12">30+</text>
+                            </svg>
+                        </div>
+                        
+                        <div class="health-tips">
+                            <h5><i class="fas fa-lightbulb me-2"></i>Health Tips</h5>
+                            <ul id="healthTips">
+                                <li><i class="fas fa-check-circle"></i>Maintain a balanced diet with plenty of fruits and vegetables</li>
+                                <li><i class="fas fa-check-circle"></i>Engage in regular physical activity (at least 30 minutes daily)</li>
+                                <li><i class="fas fa-check-circle"></i>Stay hydrated by drinking plenty of water</li>
+                                <li><i class="fas fa-check-circle"></i>Get adequate sleep (7-9 hours per night)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- BMI History -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-history me-2"></i>BMI History
+                        </h5>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Height (cm)</th>
+                                        <th>Weight (kg)</th>
+                                        <th>BMI</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bmiHistoryBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">No BMI history available</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Load BMI history on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBMIHistory();
+        });
+        
+        // Handle BMI calculation
+        document.getElementById('bmiForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            calculateBMI();
+        });
+        
+        function calculateBMI() {
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const age = parseInt(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            
+            if (!height || !weight || !age || !gender) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            // Calculate BMI
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            
+            // Determine category
+            let category, categoryClass, description;
+            
+            if (bmi < 18.5) {
+                category = 'Underweight';
+                categoryClass = 'underweight';
+                description = 'You are underweight. Consider consulting with a healthcare provider about healthy weight gain strategies.';
+            } else if (bmi < 25) {
+                category = 'Normal Weight';
+                categoryClass = 'normal';
+                description = 'Congratulations! You have a healthy BMI. Keep maintaining your current lifestyle.';
+            } else if (bmi < 30) {
+                category = 'Overweight';
+                categoryClass = 'overweight';
+                description = 'You are slightly overweight. Consider incorporating more physical activity and a balanced diet.';
+            } else {
+                category = 'Obese';
+                categoryClass = 'obese';
+                description = 'You are in the obese category. It\'s recommended to consult with a healthcare provider for personalized advice.';
+            }
+            
+            // Display result
+            const resultDiv = document.getElementById('bmiResult');
+            const resultCard = document.getElementById('bmiResultCard');
+            
+            document.getElementById('bmiValue').textContent = bmi.toFixed(2);
+            document.getElementById('bmiCategory').textContent = category;
+            document.getElementById('bmiDescription').textContent = description;
+            
+            // Update styling
+            resultCard.className = 'bmi-result ' + categoryClass;
+            
+            // Show result
+            resultDiv.style.display = 'block';
+            
+            // Update health tips based on category
+            updateHealthTips(category);
+            
+            // Save to history
+            saveToHistory(height, weight, bmi, category);
+        }
+        
+        function updateHealthTips(category) {
+            const tipsList = document.getElementById('healthTips');
+            let tips = [];
+            
+            switch(category) {
+                case 'Underweight':
+                    tips = [
+                        '<i class="fas fa-arrow-up"></i>Eat nutrient-dense foods frequently throughout the day',
+                        '<i class="fas fa-arrow-up"></i>Include healthy fats like nuts, seeds, and avocados',
+                        '<i class="fas fa-arrow-up"></i>Consider strength training to build muscle mass',
+                        '<i class="fas fa-arrow-up"></i>Consult a nutritionist for personalized meal plans'
+                    ];
+                    break;
+                case 'Normal Weight':
+                    tips = [
+                        '<i class="fas fa-check-circle"></i>Maintain your current healthy lifestyle',
+                        '<i class="fas fa-check-circle"></i>Continue regular exercise and balanced diet',
+                        '<i class="fas fa-check-circle"></i>Monitor your weight regularly',
+                        '<i class="fas fa-check-circle"></i>Stay consistent with healthy habits'
+                    ];
+                    break;
+                case 'Overweight':
+                    tips = [
+                        '<i class="fas fa-arrow-down"></i>Increase physical activity to at least 150 minutes per week',
+                        '<i class="fas fa-arrow-down"></i>Reduce portion sizes and choose nutrient-dense foods',
+                        '<i class="fas fa-arrow-down"></i>Limit sugary drinks and processed foods',
+                        '<i class="fas fa-arrow-down"></i>Consider consulting a healthcare provider for guidance'
+                    ];
+                    break;
+                case 'Obese':
+                    tips = [
+                        '<i class="fas fa-exclamation-triangle"></i>Seek professional medical advice',
+                        '<i class="fas fa-exclamation-triangle"></i>Create a structured weight loss plan',
+                        '<i class="fas fa-exclamation-triangle"></i>Start with moderate exercise and gradually increase',
+                        '<i class="fas fa-exclamation-triangle"></i>Focus on sustainable lifestyle changes'
+                    ];
+                    break;
+            }
+            
+            tipsList.innerHTML = tips.map(tip => `<li>${tip}</li>`).join('');
+        }
+        
+        function saveToHistory(height, weight, bmi, category) {
+            // Get existing history from localStorage
+            let history = JSON.parse(localStorage.getItem('bmiHistory') || '[]');
+            
+            // Add new entry
+            const entry = {
+                date: new Date().toISOString().split('T')[0],
+                height: height,
+                weight: weight,
+                bmi: bmi.toFixed(1),
+                category: category
+            };
+            
+            history.unshift(entry);
+            
+            // Keep only last 10 entries
+            if (history.length > 10) {
+                history = history.slice(0, 10);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('bmiHistory', JSON.stringify(history));
+            
+            // Update table
+            updateHistoryTable(history);
+        }
+        
+        function loadBMIHistory() {
+            const history = JSON.parse(localStorage.getItem('bmiHistory') || '[]');
+            updateHistoryTable(history);
+        }
+        
+        function updateHistoryTable(history) {
+            const tbody = document.getElementById('bmiHistoryBody');
+            
+            if (history.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No BMI history available</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = history.map(entry => {
+                let statusClass = 'bg-success';
+                if (entry.category === 'Underweight') statusClass = 'bg-info';
+                if (entry.category === 'Overweight') statusClass = 'bg-warning';
+                if (entry.category === 'Obese') statusClass = 'bg-danger';
+                
+                return `
+                    <tr>
+                        <td>${entry.date}</td>
+                        <td>${entry.height}</td>
+                        <td>${entry.weight}</td>
+                        <td>${entry.bmi}</td>
+                        <td>${entry.category}</td>
+                        <td><span class="badge ${statusClass}">${entry.category}</span></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>

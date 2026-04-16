@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - NutriTrack</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #66BB6A;
+            --accent-color: #81C784;
+            --background-color: #F1F8E9;
+            --card-bg: #FFFFFF;
+            --text-primary: #1B5E20;
+            --text-secondary: #424242;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-color), #E8F5E8);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .login-left {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+        }
+        
+        .login-right {
+            padding: 40px;
+            flex: 1;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            text-align: left;
+        }
+        
+        .feature {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature i {
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .form-control {
+            border-radius: 10px;
+            border: 2px solid #E0E0E0;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+            
+            .login-left {
+                padding: 30px;
+            }
+            
+            .login-right {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <h1>NutriTrack</h1>
+            <p class="tagline">Your Personal Nutrition Companion</p>
+            
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Track your daily nutrition</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-calculator"></i>
+                    <span>Calculate BMI & BMR</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-apple-alt"></i>
+                    <span>27+ food items database</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Comprehensive reports</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-right">
+            <h2 class="mb-4">Welcome Back!</h2>
+            
+            <!-- Alert Container -->
+            <div id="errorAlert" class="alert alert-danger" style="display: none;">
+                Invalid username or password. Please try again.
+            </div>
+            
+            <div id="successAlert" class="alert alert-success" style="display: none;">
+                You have been logged out successfully.
+            </div>
+            
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="showTab('login')">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showTab('register')">Register</a>
+                </li>
+            </ul>
+            
+            <!-- Login Tab -->
+            <div id="login" class="tab-content active">
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Register Tab -->
+            <div id="register" class="tab-content">
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <div class="mb-3">
+                        <label for="regUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="regUsername" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="regPassword" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="regName" name="name" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="regHeight" class="form-label">Height (m)</label>
+                            <input type="number" step="0.01" class="form-control" id="regHeight" name="height" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="regWeight" class="form-label">Weight (kg)</label>
+                            <input type="number" step="0.1" class="form-control" id="regWeight" name="weight" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="regAge" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="regAge" name="age" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="regGender" class="form-label">Gender</label>
+                            <select class="form-control" id="regGender" name="gender" required>
+                                <option value="">Select...</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regActivity" class="form-label">Activity Level</label>
+                        <select class="form-control" id="regActivity" name="activityLevel" required>
+                            <option value="">Select...</option>
+                            <option value="SEDENTARY">Sedentary</option>
+                            <option value="LIGHT">Light</option>
+                            <option value="MODERATE">Moderate</option>
+                            <option value="VERY_ACTIVE">Very Active</option>
+                            <option value="EXTRA_ACTIVE">Extra Active</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-2"></i>Register
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked link
+            event.target.classList.add('active');
+        }
+        
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Hide any existing alerts
+            document.getElementById('errorAlert').style.display = 'none';
+            document.getElementById('successAlert').style.display = 'none';
+            
+            console.log('Attempting login with:', username);
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Login response:', result);
+                
+                if (result.success) {
+                    window.location.href = '/dashboard';
+                } else {
+                    document.getElementById('errorAlert').style.display = 'block';
+                    document.getElementById('errorAlert').textContent = result.message || 'Invalid username or password';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('errorAlert').textContent = 'Login error: ' + error.message;
+            }
+        }
+        
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const name = document.getElementById('regName').value;
+            const height = parseFloat(document.getElementById('regHeight').value);
+            const weight = parseFloat(document.getElementById('regWeight').value);
+            const age = parseInt(document.getElementById('regAge').value);
+            const gender = document.getElementById('regGender').value;
+            const activityLevel = document.getElementById('regActivity').value;
+            
+            // Hide any existing alerts
+            document.getElementById('errorAlert').style.display = 'none';
+            document.getElementById('successAlert').style.display = 'none';
+            
+            console.log('Attempting registration with:', { username, name, height, weight, age, gender, activityLevel });
+            
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        username: username,
+                        password: password,
+                        name: name,
+                        height: height,
+                        weight: weight,
+                        age: age,
+                        gender: gender,
+                        activityLevel: activityLevel
+                    })
+                });
+                
+                const result = await response.json();
+                console.log('Register response:', result);
+                
+                if (result.success) {
+                    document.getElementById('successAlert').style.display = 'block';
+                    document.getElementById('successAlert').textContent = 'Registration successful! Redirecting to login...';
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                } else {
+                    document.getElementById('errorAlert').style.display = 'block';
+                    document.getElementById('errorAlert').textContent = result.message || 'Registration failed. Please fill all fields.';
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                document.getElementById('errorAlert').style.display = 'block';
+                document.getElementById('errorAlert').textContent = 'Registration error: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

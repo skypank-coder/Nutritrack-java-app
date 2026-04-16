@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals - NutriTrack</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #66BB6A;
+            --accent-color: #81C784;
+            --background-color: #F1F8E9;
+            --card-bg: #FFFFFF;
+            --text-primary: #1B5E20;
+            --text-secondary: #424242;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-color), #E8F5E8);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 15px 15px 0 0;
+            font-weight: 600;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            padding: 12px 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        .nav-link {
+            color: #6c757d;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .progress {
+            height: 25px;
+            border-radius: 12.5px;
+            background-color: #e9ecef;
+        }
+        
+        .progress-bar {
+            border-radius: 12.5px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .insight-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent-color);
+            background-color: #f8f9fa;
+            border-radius: 0 8px;
+        }
+        
+        .success-message {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .error-message {
+            background: linear-gradient(45deg, #dc3545, #f86734);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard-working.html">
+                <i class="fas fa-heartbeat me-2"></i>NutriTrack
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+                </a>
+                <a class="nav-link" href="/profile">
+                    <i class="fas fa-user me-1"></i> Profile
+                </a>
+                <a class="nav-link active" href="/goals">
+                    <i class="fas fa-bullseye me-1"></i> Goals
+                </a>
+                <a class="nav-link" href="/add-meal.html">
+                    <i class="fas fa-utensils me-1"></i> Add Meal
+                </a>
+                <a class="nav-link" href="/reports.html">
+                    <i class="fas fa-chart-line me-1"></i> Reports
+                </a>
+                <a class="nav-link" href="/bmi">
+                    <i class="fas fa-calculator me-1"></i> BMI
+                </a>
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                
+                <!-- Alert Messages -->
+                <div id="alertContainer"></div>
+                
+                <!-- Goal Setup Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-bullseye me-2"></i>
+                            Goal Planning
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="goalSetupForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="goalType" class="form-label">
+                                        <i class="fas fa-flag me-1"></i> Goal Type
+                                    </label>
+                                    <select class="form-select" id="goalType" name="goalType" required>
+                                        <option value="">Select Goal Type</option>
+                                        <option value="lose_weight">Lose Weight</option>
+                                        <option value="gain_weight">Gain Weight</option>
+                                        <option value="maintain">Maintain Weight</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="goalWeight" class="form-label">
+                                        <i class="fas fa-weight me-1"></i> Target Weight (kg)
+                                    </label>
+                                    <input type="number" class="form-control" id="goalWeight" name="goalWeight" 
+                                           step="0.1" min="30" max="300" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="goalWeeks" class="form-label">
+                                        <i class="fas fa-calendar me-1"></i> Duration (weeks)
+                                    </label>
+                                    <input type="number" class="form-control" id="goalWeeks" name="goalWeeks" 
+                                           min="1" max="52" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="targetCalories" class="form-label">
+                                        <i class="fas fa-fire me-1"></i> Target Calories/day
+                                    </label>
+                                    <input type="number" class="form-control" id="targetCalories" name="targetCalories" 
+                                           min="1200" max="5000" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="targetProtein" class="form-label">
+                                        <i class="fas fa-drumstick-bite me-1"></i> Target Protein (g)
+                                    </label>
+                                    <input type="number" class="form-control" id="targetProtein" name="targetProtein" 
+                                           step="0.1" min="20" max="300" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="targetCarbs" class="form-label">
+                                        <i class="fas fa-bread-slice me-1"></i> Target Carbs (g)
+                                    </label>
+                                    <input type="number" class="form-control" id="targetCarbs" name="targetCarbs" 
+                                           step="0.1" min="50" max="500" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="targetFat" class="form-label">
+                                        <i class="fas fa-oil-can me-1"></i> Target Fat (g)
+                                    </label>
+                                    <input type="number" class="form-control" id="targetFat" name="targetFat" 
+                                           step="0.1" min="20" max="200" required>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-secondary" onclick="calculateRecommendations()">
+                                    <i class="fas fa-calculator me-1"></i> Calculate Recommendations
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-1"></i> Save Goals
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Recommendations Card -->
+                <div class="card" id="recommendationsCard" style="display: none;">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Recommendations
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="recommendedCalories">--</div>
+                                    <div class="stat-label">Recommended Calories</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="stat-card">
+                                    <div class="stat-number" id="weeklyWeightChange">--</div>
+                                    <div class="stat-label">Weekly Weight Change (kg)</div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <span id="recommendationMessage">Set your goals to get personalized recommendations</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Tracking Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Progress Tracking
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Current Weight vs Target Weight</h6>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Current: <strong id="currentWeight">--</strong> kg</span>
+                                    <span>Target: <strong id="targetWeightDisplay">--</strong> kg</span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" id="weightProgressBar" style="width: 0%"></div>
+                                </div>
+                                <div class="text-center">
+                                    <small id="weightProgressText">No goal set</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Calorie Target Progress</h6>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span>Consumed: <strong id="consumedCalories">--</strong></span>
+                                    <span>Target: <strong id="targetCaloriesDisplay">--</strong></span>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" id="calorieProgressBar" style="width: 0%"></div>
+                                </div>
+                                <div class="text-center">
+                                    <small id="calorieProgressText">No goal set</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h6>Overall Progress</h6>
+                                <div class="alert" id="progressStatusAlert">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    <span id="progressStatus">Set your goals to track progress</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Insights Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-brain me-2"></i>
+                            Goal Insights
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="insightsContainer">
+                            <div class="text-center text-muted">
+                                <i class="fas fa-spinner fa-spin me-2"></i>
+                                Loading insights...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="mb-0 text-muted">&copy; 2024 NutriTrack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Load goals data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGoalsData();
+            loadProgressData();
+            loadInsights();
+        });
+        
+        // Load current goals data
+        async function loadGoalsData() {
+            try {
+                const response = await fetch('/api/user/profile');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.user;
+                    document.getElementById('goalType').value = user.goalType || '';
+                    document.getElementById('goalWeight').value = user.goalWeight || '';
+                    document.getElementById('goalWeeks').value = user.goalWeeks || '';
+                    document.getElementById('targetCalories').value = user.targetCalories || '';
+                    document.getElementById('targetProtein').value = user.targetProtein || '';
+                    document.getElementById('targetCarbs').value = user.targetCarbs || '';
+                    document.getElementById('targetFat').value = user.targetFat || '';
+                    
+                    updateDisplayValues(user);
+                }
+            } catch (error) {
+                console.error('Error loading goals data:', error);
+            }
+        }
+        
+        // Load progress data
+        async function loadProgressData() {
+            try {
+                const [nutritionResp, profileResp] = await Promise.all([
+                    fetch('/api/nutrition/summary'),
+                    fetch('/api/profile')
+                ]);
+                const nutritionData = await nutritionResp.json();
+                const profileData = await profileResp.json();
+
+                if (nutritionData.success && profileData.success) {
+                    updateProgressDisplay(nutritionData.daily.calories, profileData.user.weight);
+                }
+            } catch (error) {
+                console.error('Error loading progress data:', error);
+            }
+        }
+        
+        // Load insights
+        async function loadInsights() {
+            try {
+                const response = await fetch('/api/insights');
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayInsights(data.insights);
+                }
+            } catch (error) {
+                console.error('Error loading insights:', error);
+            }
+        }
+        
+        // Update display values
+        function updateDisplayValues(user) {
+            document.getElementById('targetWeightDisplay').textContent = user.goalWeight || '--';
+            document.getElementById('targetCaloriesDisplay').textContent = user.targetCalories || '--';
+        }
+        
+        // Update progress display
+        function updateProgressDisplay(currentCalories, currentWeight) {
+            document.getElementById('currentWeight').textContent = currentWeight.toFixed(1);
+            document.getElementById('consumedCalories').textContent = Math.round(currentCalories);
+            
+            const targetCalories = parseFloat(document.getElementById('targetCalories').value) || 0;
+            const targetWeight = parseFloat(document.getElementById('goalWeight').value) || 0;
+            
+            if (targetCalories > 0) {
+                const calorieProgress = Math.min((currentCalories / targetCalories) * 100, 100);
+                document.getElementById('calorieProgressBar').style.width = calorieProgress + '%';
+                document.getElementById('calorieProgressText').textContent = `${calorieProgress.toFixed(1)}% of target`;
+            }
+            
+            if (targetWeight > 0) {
+                const weightProgress = Math.min((currentWeight / targetWeight) * 100, 100);
+                document.getElementById('weightProgressBar').style.width = weightProgress + '%';
+                document.getElementById('weightProgressText').textContent = `${weightProgress.toFixed(1)}% to goal`;
+            }
+        }
+        
+        // Display insights
+        function displayInsights(insights) {
+            const container = document.getElementById('insightsContainer');
+            container.innerHTML = '';
+            
+            if (insights && insights.length > 0) {
+                insights.forEach(insight => {
+                    const insightDiv = document.createElement('div');
+                    insightDiv.className = 'insight-item';
+                    insightDiv.innerHTML = `
+                        <i class="fas fa-lightbulb me-2"></i>
+                        ${insight}
+                    `;
+                    container.appendChild(insightDiv);
+                });
+            } else {
+                container.innerHTML = `
+                    <div class="text-center text-muted">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Set your goals to get personalized insights
+                    </div>
+                `;
+            }
+        }
+        
+        // Calculate recommendations client-side
+        function calculateRecommendations() {
+            const goalType = document.getElementById('goalType').value;
+            const goalWeight = parseFloat(document.getElementById('goalWeight').value) || 0;
+            const goalWeeks = parseInt(document.getElementById('goalWeeks').value) || 0;
+            const targetCalories = parseInt(document.getElementById('targetCalories').value) || 0;
+
+            if (!goalType || goalWeeks <= 0 || targetCalories <= 0) {
+                showAlert('Please fill in goal type, duration, and target calories first.', 'error');
+                return;
+            }
+
+            let recommendedCalories = targetCalories;
+            let weeklyChange = 0;
+            let message = '';
+
+            if (goalType === 'lose_weight') {
+                recommendedCalories = Math.max(1200, targetCalories - 500);
+                weeklyChange = -0.5;
+                message = 'A 500 kcal/day deficit targets ~0.5 kg/week loss.';
+            } else if (goalType === 'gain_weight') {
+                recommendedCalories = targetCalories + 500;
+                weeklyChange = 0.5;
+                message = 'A 500 kcal/day surplus targets ~0.5 kg/week gain.';
+            } else {
+                message = 'Maintain your current calorie target for weight maintenance.';
+            }
+
+            displayRecommendations({ recommendedCalories, weeklyWeightChange: weeklyChange, message });
+        }
+        
+        // Display recommendations
+        function displayRecommendations(recommendations) {
+            document.getElementById('recommendedCalories').textContent = Math.round(recommendations.recommendedCalories);
+            document.getElementById('weeklyWeightChange').textContent = recommendations.weeklyWeightChange;
+            document.getElementById('recommendationMessage').textContent = recommendations.message;
+            
+            document.getElementById('recommendationsCard').style.display = 'block';
+        }
+        
+        // Handle form submission
+        document.getElementById('goalSetupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const raw = Object.fromEntries(formData.entries());
+            const data = {
+                goalType: raw.goalType,
+                goalWeight: parseFloat(raw.goalWeight) || 0,
+                goalWeeks: parseInt(raw.goalWeeks) || 0,
+                targetCalories: parseInt(raw.targetCalories) || 0,
+                targetProtein: parseFloat(raw.targetProtein) || 0,
+                targetCarbs: parseFloat(raw.targetCarbs) || 0,
+                targetFat: parseFloat(raw.targetFat) || 0
+            };
+            
+            try {
+                const response = await fetch('/api/goals', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('Goals updated successfully!', 'success');
+                    loadGoalsData(); // Reload data
+                } else {
+                    showAlert(result.message || 'Error updating goals', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating goals:', error);
+                showAlert('Error updating goals', 'error');
+            }
+        });
+        
+        // Show alert message
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${type}-message alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            alertContainer.appendChild(alertDiv);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
